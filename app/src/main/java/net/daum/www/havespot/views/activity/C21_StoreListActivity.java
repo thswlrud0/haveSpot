@@ -2,7 +2,6 @@ package net.daum.www.havespot.views.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ListView;
@@ -33,11 +32,8 @@ public class C21_StoreListActivity extends AppCompatActivity {
     private String category;
     private ArrayList<StoreDAO> store_items = new ArrayList<>();
 
-     StoreDAO[] mStoreDAOs = new StoreDAO[10];
+    StoreDAO[] mStoreDAOs = new StoreDAO[10];
 
-
-    String[] getJson = new String[10];
-    String[] getJson2 = new String[10];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,50 +43,53 @@ public class C21_StoreListActivity extends AppCompatActivity {
         Intent intent = new Intent(this.getIntent());
         category = intent.getStringExtra("category");
 
-        for(int i =0; i<10; i++){
+        for (int i = 0; i < 10; i++) {
             mStoreDAOs[i] = new StoreDAO();
         }
 
-         new Thread() {
+
+        new Thread() {
             public void run() {
-                http_test();
+                http_test(store_items);
             }
         }.start();
 
-
         /* 테스트 코드*/
+        /*
         StoreDAO item = new StoreDAO(
                 ContextCompat.getDrawable(this, R.drawable.img_store_sample),
                 mStoreDAOs[0].getStoreName(),
                 mStoreDAOs[0].getStoreAddress(),
                 128
         );
-        StoreDAO item1= new StoreDAO(
+        StoreDAO item1 = new StoreDAO(
                 ContextCompat.getDrawable(this, R.drawable.img_store_sample1),
                 "곰돌이 당구장",
                 "수지구 죽전로 168번길 33",
                 203
         );
-        StoreDAO item2= new StoreDAO(
+        StoreDAO item2 = new StoreDAO(
                 ContextCompat.getDrawable(this, R.drawable.img_store_sample2),
                 "단비 실내 양궁장",
                 "수지구 죽전로 148번길 2",
                 97
         );
-        for(int i = 0 ; i < 20 ; i++) {
+        for (int i = 0; i < 20; i++) {
             store_items.add(item);
             store_items.add(item1);
             store_items.add(item2);
         }
+        */
         /* 테스트 코드 end */
-     ListView listView = (ListView)findViewById(R.id.list_store);
-       StoreListAdapter adapter = new StoreListAdapter(this, R.layout.storelist_item, store_items);
+        ListView listView = (ListView) findViewById(R.id.list_store);
+        StoreListAdapter adapter = new StoreListAdapter(this, R.layout.storelist_item, store_items);
         listView.setAdapter(adapter);
     }
 
 
 
-    public void http_test() {
+
+    public ArrayList<StoreDAO> http_test(ArrayList<StoreDAO> store_items) {
         HttpClient client = new DefaultHttpClient();
         String return_;
 
@@ -137,18 +136,23 @@ public class C21_StoreListActivity extends AppCompatActivity {
             JSONObject json = new JSONObject(page);
             JSONArray jArr = json.getJSONArray("dataSend");
 
+            int a_idx = 0;
             // JSON이 가진 크기만큼 데이터를 받아옴
             for (int i = 0; i < jArr.length(); i++) {
                 //JSONObject returnS = (JSONObject) jArr.get(i);
                 json = jArr.getJSONObject(i);
 
-                mStoreDAOs[i].setStoreName("?");//json.getString("hey").toString());
+
+                mStoreDAOs[i].setStoreName(json.getString("hey").toString());
                 mStoreDAOs[i].setStoreTell(json.getString("really").toString());
-                mStoreDAOs[i].setStoreAddress(json.getString("three").toString());
-
-
+                //getJson[1] = json.getString("really");
             }
 
+            for (int i = 0; i < 20; i++) {
+                store_items.add(mStoreDAOs[0]);
+                store_items.add(mStoreDAOs[1]);
+                store_items.add(mStoreDAOs[2]);
+            }
     /* 여기까지 서버가 보낸 데이터를 받아 왔다. 밑에는 확인을 위한 수행 */
 
         } catch (IOException e) {
@@ -156,6 +160,7 @@ public class C21_StoreListActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+       return store_items;
     }
 }
+

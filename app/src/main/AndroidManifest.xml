@@ -13,7 +13,11 @@
 
         </activity>
         <activity android:name=".views.activity.C21_StoreListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
             </activity>
 
         <activity android:name=".views.activity.C01_StoreDetailActivity"></activity>
@@ -22,11 +26,7 @@
 
         </activity>
         <activity android:name=".views.login_test.login_page">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".views.login_test.Sign_up"/>
     </application>
