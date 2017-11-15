@@ -1,0 +1,14 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.daum.www.havespot.views.fragment.C10_MapFragment">
+
+    <!-- 첫 번째 탭 화면. Google Map Api 가져다 붙이기 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="TAB1"
+        android:gravity="center"/>
+
+</FrameLayout>
